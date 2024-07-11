@@ -74,18 +74,15 @@ export default class Main extends Controller {
       oDialog.close();
     }
   }
-
-  public onSearch(): void {
-    const sQuery = this.byId("searchField").getValue();
+  public onSearch(event: any): void {
+    const searchField = event.getSource();
+    const sQuery = searchField.getValue() || "";
     const oModel = this.getModel();
-    if (oModel) {
-      const oFilter = new Filter("title", FilterOperator.Contains, sQuery);
-      const oBinding = this.getListBinding();
-      if (oBinding) {
-        oBinding.filter(sQuery ? oFilter : []);
-      }
-      oModel.setProperty("/searchQuery", sQuery);
-    }
+    const oBinding = this.getListBinding();
+
+    const oFilter = new Filter("title", FilterOperator.Contains, sQuery);
+    oBinding?.filter(sQuery ? oFilter : []);
+    oModel?.setProperty("/searchQuery", sQuery);
   }
 
   public showAllTodos(): void {
@@ -117,11 +114,12 @@ export default class Main extends Controller {
     }
   }
 
-  public onDeleteTodo(event: Event): void {
-    const oModel = this.getModel();
-    const todo = event.getSource().getBindingContext().getObject() as Todo;
-    oModel.setProperty("/todoToDelete", todo);
+  public onDeleteTodo(event: any): void {
+    const oModel = this.getModel() as any;
 
+    const todo = event.getSource().getBindingContext().getObject() as Todo;
+
+    oModel.setProperty("/todoToDelete", todo);
     const oView = this.getView();
     if (oView) {
       const oDialog = oView.byId("confirmDeleteDialog") as Dialog;
