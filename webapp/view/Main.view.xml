@@ -1,0 +1,63 @@
+<mvc:View controllerName="fioritodoapp.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+        <content>
+            <Input           
+                placeholder="{i18n>text}"
+                width="100%"              
+                value="{/newTodo}"
+                submit="addTodo"
+            />
+            <FlexBox>              
+                <SearchField         
+                    id="searchField"          
+                    placeholder="{i18n>search}"
+                    width="100%"
+                    liveChange="onSearch"
+                />            
+                <Button 
+                text="{i18n>button1}" 
+                press="showAllTodos" 
+                />
+                <Button 
+                text="{i18n>button2}" 
+                press="showActiveTodos" 
+                />               
+                <Button 
+                text="{i18n>button3}" 
+                press="showCompletedTodos" 
+                />             
+                <Button 
+                icon="sap-icon://delete" 
+                text="{i18n>button4} " 
+                press="onDeleteCompleted" />
+            </FlexBox>
+             <List items="{/todos}" id="list">
+                <CustomListItem>                                         
+                        <CheckBox selected="{completed}" />
+                        <Label text="{title}" />                      
+                        <Button icon="sap-icon://delete"
+                         press="onDeleteTodo" />                 
+                </CustomListItem>
+            </List>
+
+            <Dialog
+                id="confirmDeleteDialog"
+                title="{i18n>confirmDeleteTitle}"
+                type="Message"
+                class="sapUiResponsivePadding--header sapUiResponsivePadding--content sapUiResponsivePadding--footer"
+               >
+                <beginButton>
+                    <Button text="{i18n>confirmDeleteButton}"
+                     press="onConfirmDelete" />
+                </beginButton>
+                <endButton>
+                    <Button text="{i18n>cancelButton}"
+                     press="onCancelDelete" />
+                </endButton>
+            </Dialog>
+        </content>
+    </Page>
+</mvc:View>
